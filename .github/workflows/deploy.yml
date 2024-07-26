@@ -11,16 +11,17 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3 # Updated to the latest version
 
     - name: Set up SSH
-      uses: webfactory/ssh-agent@v0.5.3
+      uses: webfactory/ssh-agent@v0.5.4 # Updated to the latest version
       with:
         ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY_FEDORABLE }}
+
+    - name: Debug SSH Key
+      run: echo "${{ secrets.SSH_PRIVATE_KEY_FEDORABLE }}" | head -n 1 | cut -c1-10
 
     - name: Copy files to server
       run: |
         scp -r ./* user@192.168.1.100:/usr/share/nginx/html/nextcloud
         ssh user@192.168.1.100 'sudo chown -R nginx:nginx /usr/share/nginx/html/nextcloud'
-      env:
-        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}

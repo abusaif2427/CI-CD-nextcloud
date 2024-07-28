@@ -23,5 +23,5 @@ jobs:
 
     - name: Copy files to server
       run: |
-        scp -r ./* user@192.168.1.100:/usr/share/nginx/html/nextcloud
-        ssh user@192.168.1.100 'sudo chown -R nginx:nginx /usr/share/nginx/html/nextcloud'
+        scp -r ./* user@192.168.1.226:/usr/share/nginx/html/nextcloud
+        ssh abu-saif@192.168.1.226 'sudo chown -R nginx:nginx /usr/share/nginx/html/nextcloud'

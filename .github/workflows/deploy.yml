@@ -21,7 +21,18 @@ jobs:
     - name: Debug SSH Key
       run: echo "${{ secrets.SSH_PRIVATE_KEY_FEDORABLE }}" | head -n 1 | cut -c1-10
 
+    - name: Ensure SSH connection is possible
+      run: |
+        ssh -o StrictHostKeyChecking=no abu-saif@192.168.1.226 'echo "SSH connection successful"'
+
     - name: Copy files to server
       run: |
+        echo "Starting file copy..."
         scp -r ./* abu-saif@192.168.1.226:/usr/share/nginx/html/nextcloud
+        echo "File copy completed."
+
+    - name: Change ownership of files
+      run: |
+        echo "Changing file ownership..."
         ssh abu-saif@192.168.1.226 'sudo chown -R nginx:nginx /usr/share/nginx/html/nextcloud'
+        echo "File ownership changed."

@@ -21,6 +21,11 @@ jobs:
     - name: Debug SSH Key
       run: echo "${{ secrets.SSH_PRIVATE_KEY_FEDORABLE }}" | head -n 1 | cut -c1-10
 
+    - name: Add remote host to known hosts
+      run: |
+        mkdir -p ~/.ssh
+        ssh-keyscan -H Fedorable >> ~/.ssh/known_hosts
+
     - name: Ensure SSH connection is possible
       run: |
         ssh -o StrictHostKeyChecking=no abu-saif@Fedorable 'echo "SSH connection successful"'
@@ -36,3 +41,4 @@ jobs:
         echo "Changing file ownership..."
         ssh abu-saif@Fedorable 'sudo chown -R nginx:nginx /usr/share/nginx/html/nextcloud'
         echo "File ownership changed."
+

@@ -22,8 +22,7 @@ jobs:
       run: echo "${{ secrets.SSH_PRIVATE_KEY_FEDORABLE }}" | head -n 1 | cut -c1-10
 
     - name: Add remote host to /etc/hosts
-      run: |
-        echo "${{ secrets.FEDORABLE_IP }} Fedorable" | sudo tee -a /etc/hosts
+      run: echo "${{ secrets.FEDORABLE_IP }} Fedorable" | sudo tee -a /etc/hosts
 
     - name: Add remote host to known hosts
       run: |
@@ -31,8 +30,7 @@ jobs:
         ssh-keyscan -H Fedorable >> ~/.ssh/known_hosts
 
     - name: Ensure SSH connection is possible
-      run: |
-        ssh -o StrictHostKeyChecking=no abu-saif@Fedorable 'echo "SSH connection successful"'
+      run: ssh -o StrictHostKeyChecking=no abu-saif@Fedorable 'echo "SSH connection successful"'
 
     - name: Copy files to server
       run: |

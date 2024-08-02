@@ -46,6 +46,3 @@ jobs:
         echo "Changing file ownership..."
         ssh -o StrictHostKeyChecking=no abu-saif@Fedorable 'sudo chown -R nginx:nginx /usr/share/nginx/html/nextcloud'
         echo "File ownership changed."
- ownership..."
-        ssh -o StrictHostKeyChecking=no abu-saif@Fedorable 'sudo chown -R nginx:nginx /usr/share/nginx/html/nextcloud'
-        echo "File ownership changed."

@@ -38,8 +38,8 @@ jobs:
     - name: Copy files to server
       run: |
         echo "Starting file copy..."
-        tar -czf - . | ssh -o StrictHostKeyChecking=no abu-saif@Fedorable 'sudo tar -xzf - -C /usr/share/nginx/html/nextcloud'
-        echo "File copy completed."
+        tar -czf - . | ssh -o StrictHostKeyChecking=no abu-saif@Fedorable "echo \$SUDO_PASSWORD | sudo -S mkdir -p /usr/share/nginx/html/nextcloud && sudo chown -R $USER:$USER /usr/share/nginx/html/nextcloud"
+
 
     - name: Change ownership of files
       run: |

@@ -32,14 +32,17 @@ jobs:
     - name: Ensure SSH connection is possible
       run: ssh -o StrictHostKeyChecking=no abu-saif@Fedorable 'echo "SSH connection successful"'
 
+    - name: Create nextcloud directory
+      run: ssh -o StrictHostKeyChecking=no abu-saif@Fedorable 'sudo mkdir -p /usr/share/nginx/html/nextcloud && sudo chown -R $USER:$USER /usr/share/nginx/html/nextcloud'
+
     - name: Copy files to server
       run: |
         echo "Starting file copy..."
-        scp -r ./* abu-saif@Fedorable:/usr/share/nginx/html/nextcloud
+        tar -czf - . | ssh -o StrictHostKeyChecking=no abu-saif@Fedorable 'sudo tar -xzf - -C /usr/share/nginx/html/nextcloud'
         echo "File copy completed."
 
     - name: Change ownership of files
       run: |
         echo "Changing file ownership..."
-        ssh abu-saif@Fedorable 'sudo chown -R nginx:nginx /usr/share/nginx/html/nextcloud'
+        ssh -o StrictHostKeyChecking=no abu-saif@Fedorable 'sudo chown -R nginx:nginx /usr/share/nginx/html/nextcloud'
         echo "File ownership changed."

@@ -10,13 +10,16 @@ jobs:
     runs-on: self-hosted
 
     steps:
+      - name: Set up Node.js 20
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20.5.1' # Use the latest version of Node.js 20
+
       - name: Checkout repository
         uses: actions/checkout@v3
 
       - name: Set up SSH
         uses: webfactory/ssh-agent@v0.6.0
-        with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY_FEDORABLE }}
 
       - name: Debug SSH Key
         run: echo "${{ secrets.SSH_PRIVATE_KEY_FEDORABLE }}" | head -n 1 | cut -c1-10
@@ -30,25 +33,4 @@ jobs:
           ssh-keyscan -H Fedorable >> ~/.ssh/known_hosts
 
       - name: Ensure SSH connection is possible
-        run: ssh -o StrictHostKeyChecking=no abu-saif@Fedorable 'echo "SSH connection successful"'
-
-      - name: Create nextcloud directory
-        env:
-          SUDO_PASSWORD: ${{ secrets.SUDO_PASSWORD }}
-        run: |
-          ssh -o StrictHostKeyChecking=no abu-saif@Fedorable 'echo "${SUDO_PASSWORD}" | sudo -S mkdir -p /usr/share/nginx/html/nextcloud && sudo chown -R $USER:$USER /usr/share/nginx/html/nextcloud'
-
-      - name: Copy files to server
-        env:
-          SUDO_PASSWORD: ${{ secrets.SUDO_PASSWORD }}
-        run: |
-          echo "Starting file copy..."
-          tar -czf - . | ssh -o StrictHostKeyChecking=no abu-saif@Fedorable 'echo "${SUDO_PASSWORD}" | sudo -S tar -xzf - -C /usr/share/nginx/html/nextcloud'
-
-      - name: Change ownership of files
-        env:
-          SUDO_PASSWORD: ${{ secrets.SUDO_PASSWORD }}
-        run: |
-          echo "Changing file ownership..."
-          ssh -o StrictHostKeyChecking=no abu-saif@Fedorable 'echo "${SUDO_PASSWORD}" | sudo -S chown -R nginx:nginx /usr/share/nginx/html/nextcloud'
-          echo "File ownership changed."
+        run: ssh -o StrictHostKeyChecking=no a

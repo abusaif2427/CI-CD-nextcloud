@@ -20,6 +20,8 @@ jobs:
 
       - name: Set up SSH
         uses: webfactory/ssh-agent@v0.6.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY_FEDORABLE }}
 
       - name: Debug SSH Key
         run: echo "${{ secrets.SSH_PRIVATE_KEY_FEDORABLE }}" | head -n 1 | cut -c1-10
